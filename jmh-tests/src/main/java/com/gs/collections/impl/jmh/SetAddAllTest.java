@@ -42,24 +42,25 @@ public class SetAddAllTest extends AbstractJMHTestRunner
     private final MutableSet<Integer> integersGSC = Interval.oneTo(SIZE).toSet();
 
     @Benchmark
-    public void jdk(Blackhole bh)
+    public Set<Integer> jdk(Blackhole bh)
     {
-        Set<Integer> result = new HashSet<>();
+    	
+    	Set<Integer> result = new HashSet<>();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersJDK);
         }
-        bh.consume(result);
+        return result;
     }
 
     @Benchmark
-    public void gsc(Blackhole bh)
+    public MutableSet<Integer> gsc(Blackhole bh)
     {
         MutableSet<Integer> result = UnifiedSet.newSet();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersGSC);
         }
-        bh.consume(result);
+        return result;
     }
 }
