@@ -30,6 +30,7 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.infra.Blackhole;
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.Throughput)
@@ -41,22 +42,24 @@ public class SetAddAllTest extends AbstractJMHTestRunner
     private final MutableSet<Integer> integersGSC = Interval.oneTo(SIZE).toSet();
 
     @Benchmark
-    public void jdk()
+    public void jdk(Blackhole bh)
     {
         Set<Integer> result = new HashSet<>();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersJDK);
         }
+        bh.consume(result);
     }
 
     @Benchmark
-    public void gsc()
+    public void gsc(Blackhole bh)
     {
         MutableSet<Integer> result = UnifiedSet.newSet();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersGSC);
         }
+        bh.consume(result);
     }
 }
