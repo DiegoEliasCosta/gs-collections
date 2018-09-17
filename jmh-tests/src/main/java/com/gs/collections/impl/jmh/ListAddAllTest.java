@@ -41,7 +41,7 @@ public class ListAddAllTest extends AbstractJMHTestRunner
     private final MutableList<Integer> integersGSC = FastList.newList(Interval.oneTo(SIZE));
 
     @Benchmark
-    public void jdk()
+    public List<Integer> jdk()
     {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < 1000; i++)
@@ -52,10 +52,11 @@ public class ListAddAllTest extends AbstractJMHTestRunner
         {
             throw new AssertionError();
         }
+        return result;
     }
 
     @Benchmark
-    public void gsc()
+    public MutableList<Integer> gsc()
     {
         MutableList<Integer> result = FastList.newList();
         for (int i = 0; i < 1000; i++)
@@ -66,5 +67,6 @@ public class ListAddAllTest extends AbstractJMHTestRunner
         {
             throw new AssertionError();
         }
+        return result;
     }
 }

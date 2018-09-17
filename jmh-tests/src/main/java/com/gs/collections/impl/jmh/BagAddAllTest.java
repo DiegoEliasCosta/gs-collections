@@ -41,22 +41,24 @@ public class BagAddAllTest extends AbstractJMHTestRunner
     private final MutableBag<Integer> integersGSC = Interval.oneTo(SIZE).toBag();
 
     @Benchmark
-    public void guava()
+    public Multiset<Integer> guava()
     {
         Multiset<Integer> result = HashMultiset.create();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersGuava);
         }
+        return result;
     }
 
     @Benchmark
-    public void gsc()
+    public MutableBag<Integer> gsc()
     {
         MutableBag<Integer> result = HashBag.newBag();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersGSC);
         }
+        return result;
     }
 }
