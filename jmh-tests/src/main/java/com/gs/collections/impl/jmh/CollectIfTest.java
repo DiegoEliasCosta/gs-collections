@@ -35,6 +35,7 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.infra.Blackhole;
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.Throughput)
@@ -48,59 +49,75 @@ public class CollectIfTest extends AbstractJMHTestRunner
     private final FastList<Integer> integersGSC = FastList.newList(Interval.oneTo(SIZE));
 
     @Benchmark
-    public void serial_lazy_jdk()
+    public void serial_lazy_jdk(Blackhole bh)
     {
         List<String> evenStrings = this.integersJDK.stream().filter(e -> e % 2 == 0).map(Object::toString).collect(Collectors.toList());
         List<String> oddStrings = this.integersJDK.stream().filter(e -> e % 2 == 1).map(Object::toString).collect(Collectors.toList());
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 
     @Benchmark
-    public void serial_lazy_streams_gsc()
+    public void serial_lazy_streams_gsc(Blackhole bh)
     {
         List<String> evenStrings = this.integersGSC.stream().filter(e -> e % 2 == 0).map(Object::toString).collect(Collectors.toList());
         List<String> oddStrings = this.integersGSC.stream().filter(e -> e % 2 == 1).map(Object::toString).collect(Collectors.toList());
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 
     @Benchmark
-    public void parallel_lazy_jdk()
+    public void parallel_lazy_jdk(Blackhole bh)
     {
         List<String> evenStrings = this.integersJDK.parallelStream().filter(e -> e % 2 == 0).map(Object::toString).collect(Collectors.toList());
         List<String> oddStrings = this.integersJDK.parallelStream().filter(e -> e % 2 == 1).map(Object::toString).collect(Collectors.toList());
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 
     @Benchmark
-    public void parallel_lazy_streams_gsc()
+    public void parallel_lazy_streams_gsc(Blackhole bh)
     {
         List<String> evenStrings = this.integersGSC.parallelStream().filter(e -> e % 2 == 0).map(Object::toString).collect(Collectors.toList());
         List<String> oddStrings = this.integersGSC.parallelStream().filter(e -> e % 2 == 1).map(Object::toString).collect(Collectors.toList());
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 
     @Benchmark
-    public void serial_eager_gsc()
+    public void serial_eager_gsc(Blackhole bh)
     {
         MutableList<String> evenStrings = this.integersGSC.collectIf(e -> e % 2 == 0, Object::toString);
         MutableList<String> oddStrings = this.integersGSC.collectIf(e -> e % 2 == 1, Object::toString);
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 
     @Benchmark
-    public void parallel_eager_gsc()
+    public void parallel_eager_gsc(Blackhole bh)
     {
         Collection<String> evenStrings = ParallelIterate.collectIf(this.integersGSC, e -> e % 2 == 0, Object::toString);
         Collection<String> oddStrings = ParallelIterate.collectIf(this.integersGSC, e -> e % 2 == 1, Object::toString);
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 
     @Benchmark
-    public void serial_lazy_gsc()
+    public void serial_lazy_gsc(Blackhole bh)
     {
         MutableList<String> evenStrings = this.integersGSC.asLazy().select(e -> e % 2 == 0).collect(Object::toString).toList();
         MutableList<String> oddStrings = this.integersGSC.asLazy().select(e -> e % 2 == 1).collect(Object::toString).toList();
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 
     @Benchmark
-    public void parallel_lazy_gsc()
+    public void parallel_lazy_gsc(Blackhole bh)
     {
         ParallelListIterable<Integer> parallelListIterable = this.integersGSC.asParallel(this.service, BATCH_SIZE);
         MutableList<String> evenStrings = parallelListIterable.select(e -> e % 2 == 0).collect(Object::toString).toList();
         MutableList<String> oddStrings = parallelListIterable.select(e -> e % 2 == 1).collect(Object::toString).toList();
+        bh.consume(evenStrings);
+        bh.consume(oddStrings);
     }
 }

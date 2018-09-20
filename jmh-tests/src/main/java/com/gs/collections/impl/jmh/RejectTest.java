@@ -32,6 +32,7 @@ import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.infra.Blackhole;
 
 @State(Scope.Thread)
 @BenchmarkMode(Mode.Throughput)
@@ -43,26 +44,32 @@ public class RejectTest extends AbstractJMHTestRunner
     private final MutableList<Integer> integersGSC = Interval.oneTo(SIZE).toList();
 
     @Benchmark
-    public void serial_lazy_jdk_lambda_not()
+    public void serial_lazy_jdk_lambda_not(Blackhole bh)
     {
         List<Integer> evens = this.integersJDK.stream().filter(each -> each % 2 != 1).collect(Collectors.toList());
         List<Integer> odds = this.integersJDK.stream().filter(each -> each % 2 != 0).collect(Collectors.toList());
+        bh.consume(evens);
+        bh.consume(odds);
     }
 
     @Benchmark
-    public void serial_lazy_streams_gsc_lambda_not()
+    public void serial_lazy_streams_gsc_lambda_not(Blackhole bh)
     {
         List<Integer> evens = this.integersGSC.stream().filter(each -> each % 2 != 1).collect(Collectors.toList());
         List<Integer> odds = this.integersGSC.stream().filter(each -> each % 2 != 0).collect(Collectors.toList());
+        bh.consume(evens);
+        bh.consume(odds);
     }
 
     @Benchmark
-    public void serial_lazy_jdk_lambda_negate()
+    public void serial_lazy_jdk_lambda_negate(Blackhole bh)
     {
         Predicate<Integer> predicate1 = each -> (each % 2 == 1);
         List<Integer> evens = this.integersJDK.stream().filter(predicate1.negate()).collect(Collectors.toList());
         Predicate<Integer> predicate2 = each -> (each % 2 == 0);
         List<Integer> odds = this.integersJDK.stream().filter(predicate2.negate()).collect(Collectors.toList());
+        bh.consume(evens);
+        bh.consume(odds);
     }
 
     @Benchmark
@@ -75,23 +82,29 @@ public class RejectTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void serial_eager_gsc_select_predicates_not()
+    public void serial_eager_gsc_select_predicates_not(Blackhole bh)
     {
         MutableList<Integer> evens = this.integersGSC.select(Predicates.not(each -> each % 2 == 1));
         MutableList<Integer> odds = this.integersGSC.select(Predicates.not(each -> each % 2 == 0));
+        bh.consume(evens);
+        bh.consume(odds);
     }
 
     @Benchmark
-    public void serial_eager_gsc()
+    public void serial_eager_gsc(Blackhole bh)
     {
         MutableList<Integer> evens = this.integersGSC.reject(each -> each % 2 == 1);
         MutableList<Integer> odds = this.integersGSC.reject(each -> each % 2 == 0);
+        bh.consume(evens);
+        bh.consume(odds);
     }
 
     @Benchmark
-    public void serial_lazy_gsc()
+    public void serial_lazy_gsc(Blackhole bh)
     {
         MutableList<Integer> evens = this.integersGSC.asLazy().reject(each -> each % 2 == 1).toList();
         MutableList<Integer> odds = this.integersGSC.asLazy().reject(each -> each % 2 == 0).toList();
+        bh.consume(evens);
+        bh.consume(odds);
     }
 }
