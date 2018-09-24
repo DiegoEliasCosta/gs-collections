@@ -109,7 +109,7 @@ public class LongIntMapTest extends AbstractJMHTestRunner
     @Warmup(iterations = 20)
     @Measurement(iterations = 10)
     @Benchmark
-    public void put()
+    public void put(Blackhole blackHole)
     {
         for (int j = 0; j < 10_000_000 / this.mapSizeDividedBy16000 / 64; j++)
         {
@@ -118,13 +118,14 @@ public class LongIntMapTest extends AbstractJMHTestRunner
             {
                 newMap.put(this.randomLongsForMap[i], this.randomIntegersForMap[i]);
             }
+            blackHole.consume(newMap);
         }
     }
 
     @Warmup(iterations = 20)
     @Measurement(iterations = 10)
     @Benchmark
-    public void presizedPut()
+    public void presizedPut(Blackhole blackHole)
     {
         for (int j = 0; j < 10_000_000 / this.mapSizeDividedBy16000 / 64; j++)
         {
@@ -133,13 +134,14 @@ public class LongIntMapTest extends AbstractJMHTestRunner
             {
                 newMap.put(this.randomLongsForMap[i], this.randomIntegersForMap[i]);
             }
+            blackHole.consume(newMap);
         }
     }
 
     @Warmup(iterations = 20)
     @Measurement(iterations = 10)
     @Benchmark
-    public void remove()
+    public void remove(Blackhole blackHole)
     {
         for (int j = 0; j < 10_000_000 / this.mapSizeDividedBy16000 / 64; j++)
         {
@@ -148,6 +150,7 @@ public class LongIntMapTest extends AbstractJMHTestRunner
             {
                 newMap.remove(this.randomLongsForMap[i]);
             }
+            blackHole.consume(newMap);
         }
     }
 

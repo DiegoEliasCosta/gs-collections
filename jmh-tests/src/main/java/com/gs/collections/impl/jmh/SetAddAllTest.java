@@ -41,22 +41,24 @@ public class SetAddAllTest extends AbstractJMHTestRunner
     private final MutableSet<Integer> integersGSC = Interval.oneTo(SIZE).toSet();
 
     @Benchmark
-    public void jdk()
+    public Set<Integer> jdk()
     {
         Set<Integer> result = new HashSet<>();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersJDK);
         }
+        return result;
     }
 
     @Benchmark
-    public void gsc()
+    public MutableSet<Integer> gsc()
     {
         MutableSet<Integer> result = UnifiedSet.newSet();
         for (int i = 0; i < 1000; i++)
         {
             result.addAll(this.integersGSC);
         }
+        return result;
     }
 }
