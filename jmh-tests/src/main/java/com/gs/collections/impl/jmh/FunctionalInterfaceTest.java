@@ -38,6 +38,10 @@ import com.gs.collections.impl.list.mutable.FastList;
 import com.gs.collections.impl.parallel.ParallelIterate;
 import com.gs.collections.impl.set.mutable.UnifiedSet;
 import com.gs.collections.impl.test.Verify;
+
+import scala.collection.mutable.ArrayBuffer;
+import scala.collection.mutable.Buffer;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -491,9 +495,9 @@ public class FunctionalInterfaceTest extends AbstractJMHTestRunner
     @Warmup(iterations = 20)
     @Measurement(iterations = 10)
     @Benchmark
-    public void serial_eager_scala()
+    public ArrayBuffer<Integer> serial_eager_scala()
     {
-        FunctionalInterfaceScalaTest.serial_eager_scala();
+        return FunctionalInterfaceScalaTest.serial_eager_scala();
     }
 
     @Test
@@ -505,9 +509,9 @@ public class FunctionalInterfaceTest extends AbstractJMHTestRunner
     @Warmup(iterations = 20)
     @Measurement(iterations = 10)
     @Benchmark
-    public void serial_lazy_scala()
+    public Buffer<Integer> serial_lazy_scala()
     {
-        FunctionalInterfaceScalaTest.serial_lazy_scala();
+        return FunctionalInterfaceScalaTest.serial_lazy_scala();
     }
 
     @Test
@@ -519,9 +523,9 @@ public class FunctionalInterfaceTest extends AbstractJMHTestRunner
     @Warmup(iterations = 50)
     @Measurement(iterations = 25)
     @Benchmark
-    public void parallel_lazy_scala()
+    public Buffer<Integer> parallel_lazy_scala()
     {
-        FunctionalInterfaceScalaTest.parallel_lazy_scala();
+        return FunctionalInterfaceScalaTest.parallel_lazy_scala();
     }
 
     @Test
@@ -533,9 +537,9 @@ public class FunctionalInterfaceTest extends AbstractJMHTestRunner
     @Warmup(iterations = 50)
     @Measurement(iterations = 25)
     @Benchmark
-    public void parallel_lazy_scala_hand_coded()
+    public Buffer<Object> parallel_lazy_scala_hand_coded()
     {
-        FunctionalInterfaceScalaTest.parallel_lazy_scala_hand_coded();
+        return FunctionalInterfaceScalaTest.parallel_lazy_scala_hand_coded();
     }
 
     @Test
