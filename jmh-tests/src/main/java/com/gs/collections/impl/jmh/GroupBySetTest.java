@@ -37,6 +37,11 @@ import com.gs.collections.impl.list.Interval;
 import com.gs.collections.impl.multimap.set.UnifiedSetMultimap;
 import com.gs.collections.impl.set.mutable.UnifiedSet;
 import com.gs.collections.impl.test.Verify;
+
+import scala.collection.IterableView;
+import scala.collection.parallel.immutable.ParMap;
+import scala.collection.parallel.mutable.ParHashSet;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -546,9 +551,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_2_keys_serial_eager_scala()
+    public scala.collection.immutable.Map<Object, scala.collection.mutable.HashSet<Object>> groupBy_2_keys_serial_eager_scala()
     {
-        GroupBySetScalaTest.groupBy_2_keys_serial_eager_scala();
+        return GroupBySetScalaTest.groupBy_2_keys_serial_eager_scala();
     }
 
     @Test
@@ -558,9 +563,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_100_keys_serial_eager_scala()
+    public scala.collection.immutable.Map<Object,scala.collection.mutable.HashSet<Object>> groupBy_100_keys_serial_eager_scala()
     {
-        GroupBySetScalaTest.groupBy_100_keys_serial_eager_scala();
+        return GroupBySetScalaTest.groupBy_100_keys_serial_eager_scala();
     }
 
     @Test
@@ -570,9 +575,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_10000_keys_serial_eager_scala()
+    public scala.collection.immutable.Map<Object,scala.collection.mutable.HashSet<Object>> groupBy_10000_keys_serial_eager_scala()
     {
-        GroupBySetScalaTest.groupBy_10000_keys_serial_eager_scala();
+        return GroupBySetScalaTest.groupBy_10000_keys_serial_eager_scala();
     }
 
     @Test
@@ -582,9 +587,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_2_keys_serial_lazy_scala()
+    public scala.collection.immutable.Map<Object,IterableView<Object,scala.collection.mutable.HashSet<Object>>> groupBy_2_keys_serial_lazy_scala()
     {
-        GroupBySetScalaTest.groupBy_unordered_lists_2_keys_serial_lazy_scala();
+        return GroupBySetScalaTest.groupBy_unordered_lists_2_keys_serial_lazy_scala();
     }
 
     @Test
@@ -594,9 +599,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_100_keys_serial_lazy_scala()
+    public scala.collection.immutable.Map<Object,IterableView<Object,scala.collection.mutable.HashSet<Object>>> groupBy_100_keys_serial_lazy_scala()
     {
-        GroupBySetScalaTest.groupBy_unordered_lists_100_keys_serial_lazy_scala();
+        return GroupBySetScalaTest.groupBy_unordered_lists_100_keys_serial_lazy_scala();
     }
 
     @Test
@@ -606,9 +611,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_10000_keys_serial_lazy_scala()
+    public scala.collection.immutable.Map<Object,IterableView<Object,scala.collection.mutable.HashSet<Object>>> groupBy_10000_keys_serial_lazy_scala()
     {
-        GroupBySetScalaTest.groupBy_unordered_lists_10000_keys_serial_lazy_scala();
+        return GroupBySetScalaTest.groupBy_unordered_lists_10000_keys_serial_lazy_scala();
     }
 
     @Test
@@ -618,9 +623,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_2_keys_parallel_lazy_scala()
+    public ParMap<Object,ParHashSet<Object>> groupBy_2_keys_parallel_lazy_scala()
     {
-        GroupBySetScalaTest.groupBy_2_keys_parallel_lazy_scala();
+        return GroupBySetScalaTest.groupBy_2_keys_parallel_lazy_scala();
     }
 
     @Test
@@ -630,9 +635,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_100_keys_parallel_lazy_scala()
+    public ParMap<Object,ParHashSet<Object>> groupBy_100_keys_parallel_lazy_scala()
     {
-        GroupBySetScalaTest.groupBy_100_keys_parallel_lazy_scala();
+        return GroupBySetScalaTest.groupBy_100_keys_parallel_lazy_scala();
     }
 
     @Test
@@ -642,9 +647,9 @@ public class GroupBySetTest extends AbstractJMHTestRunner
     }
 
     @Benchmark
-    public void groupBy_10000_keys_parallel_lazy_scala()
+    public ParMap<Object,ParHashSet<Object>> groupBy_10000_keys_parallel_lazy_scala()
     {
-        GroupBySetScalaTest.groupBy_10000_keys_parallel_lazy_scala();
+        return GroupBySetScalaTest.groupBy_10000_keys_parallel_lazy_scala();
     }
 
     @Test
